@@ -1,29 +1,55 @@
 {
   "heroes": [
     {
-      "id": 1,
-      "name": "Неизвестный герой",
-      "description": "Скрывающийся в тени, но не из DC",
+      "id": "bfaddcfd-1a53-4199-9dfe-32ac1cd6fe5b",
+      "name": "Hero One",
+      "description": "description",
       "element": "fire"
     },
     {
-      "id": 2,
-      "name": "Неизвестный герой",
-      "description": "Скрывающийся в тени",
+      "id": "df5eee64-4960-4aff-b510-8086f59069ad",
+      "name": "Hero Two",
+      "description": "description ",
+      "element": "water"
+    },
+    {
+      "id": "88ca22f5-8822-45d2-9eb3-1c1301978c41",
+      "name": "Hero Three",
+      "description": "description",
       "element": "wind"
     },
     {
-      "id": 3,
-      "name": "Морской герой",
-      "description": "Как аквамен, но не из DC",
-      "element": "water"
+      "id": "caef1471-50f4-4ba4-a7d8-92992df98a83",
+      "name": "Hero Four",
+      "description": "description",
+      "element": "earth"
     }
   ],
   "filters": [
-    "all",
-    "fire",
-    "water",
-    "wind",
-    "earth"
+    {
+      "name": "all",
+      "label": "All",
+      "className": "btn-outline-dark"
+    },
+    {
+      "name": "fire",
+      "label": "Fire",
+      "className": "btn-danger"
+    },
+    {
+      "name": "water",
+      "label": "Water",
+      "className": "btn-primary"
+    },
+    {
+      "name": "wind",
+      "label": "Wind",
+      "className": "btn-success"
+    },
+    {
+      "name": "earth",
+      "label": "Earth",
+      "className": "btn-secondary"
+    }
   ]
 }

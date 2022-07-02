@@ -26,9 +26,9 @@ const HeroesListItem = ({name, description, element, onDelete}) => {
             <img src="http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg" 
                  className="img-fluid w-25 d-inline" 
                  alt="unknown hero" 
-                 style={{'objectFit': 'cover'}}/>
+                 style={{'objectFit': 'cover'}}
+            />
             <div className="card-body">
-                
                 <h3 className="card-title">{name}</h3>
                 <p className="card-text">{description}</p>
             </div>
@@ -37,7 +37,8 @@ const HeroesListItem = ({name, description, element, onDelete}) => {
                     onClick={onDelete}
                     type="button"
                     className="btn-close btn-close"
-                    aria-label="Close">
+                    aria-label="Close"
+                >
                 </button>
             </span>
         </li>
