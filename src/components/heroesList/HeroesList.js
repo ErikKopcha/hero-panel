@@ -6,9 +6,7 @@ import { CSSTransition, TransitionGroup} from 'react-transition-group';
 import './heroesList.scss';
 
 import {
-    heroesFetching,
-    heroesFetched,
-    heroesFetchingError,
+    fetchHeroes,
     heroDeleted
 } from '../../actions/heroes';
 
@@ -36,10 +34,7 @@ const HeroesList = () => {
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
+        dispatch(fetchHeroes(request))
 
         // eslint-disable-next-line
     }, []);
