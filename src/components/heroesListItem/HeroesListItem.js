@@ -20,6 +20,14 @@ const HeroesListItem = ({name, description, element, onDelete}) => {
             elementClassName = 'bg-warning bg-gradient';
     }
 
+    const btnRemoveStyle = {
+        width: '2rem',
+        height: '2rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+
     return (
         <li 
             className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}>
@@ -32,7 +40,9 @@ const HeroesListItem = ({name, description, element, onDelete}) => {
                 <h3 className="card-title">{name}</h3>
                 <p className="card-text">{description}</p>
             </div>
-            <span className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
+            <div
+                style={btnRemoveStyle}
+                className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
                 <button
                     onClick={onDelete}
                     type="button"
@@ -40,7 +50,7 @@ const HeroesListItem = ({name, description, element, onDelete}) => {
                     aria-label="Close"
                 >
                 </button>
-            </span>
+            </div>
         </li>
     )
 }

@@ -2,7 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
-import { filtersFetching, filtersFetched, filtersFetchingError, activeFilterChanged } from '../../actions';
+import { filtersFetching, filtersFetched, filtersFetchingError, activeFilterChanged } from '../../actions/filters';
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
@@ -21,7 +21,7 @@ const HeroesFilters = () => {
     }, []);
 
     if (filtersLoadingStatus === "loading") {
-        return <Spinner/>;
+        return <div className="d-flex justify-content-center"><Spinner /></div>
     } else if (filtersLoadingStatus === "error") {
         return <h5 className="text-center mt-5">Loading error</h5>
     }

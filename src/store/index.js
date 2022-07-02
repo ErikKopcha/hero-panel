@@ -1,5 +1,4 @@
-import { createStore } from 'redux';
-import { combineReducers } from "@reduxjs/toolkit";
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import heroes from "../reducers/heroes";
 import filters from "../reducers/filters";
 
@@ -8,9 +7,22 @@ const rootReducer = combineReducers({
     filters
 });
 
+const stringMiddleware = (store) => (next) => (action) => {
+    if (typeof action === 'string') {
+        return next({
+            type: action
+        })
+    }
+
+    return next(action);
+}
+
 const store = createStore(
     rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    compose(
+        applyMiddleware(stringMiddleware),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
 );
 
 export default store;

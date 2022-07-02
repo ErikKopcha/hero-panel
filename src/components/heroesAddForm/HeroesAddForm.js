@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useHttp} from "../../hooks/http.hook";
 import {useState} from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { heroCreated } from '../../actions';
+import { heroCreated } from "../../actions/heroes";
 
 const HeroesAddForm = () => {
     const [heroName, setHeroName] = useState('');

@@ -10,7 +10,7 @@ import {
     heroesFetched,
     heroesFetchingError,
     heroDeleted
-} from '../../actions';
+} from '../../actions/heroes';
 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
@@ -31,7 +31,7 @@ const HeroesList = () => {
     );
 
     const filteredHeroes = useSelector(filteredHeroesSelector);
-    const { heroesLoadingStatus } = useSelector(state => state);
+    const { heroesLoadingStatus } = useSelector(state => state.heroes);
     const dispatch = useDispatch();
     const { request } = useHttp();
 
