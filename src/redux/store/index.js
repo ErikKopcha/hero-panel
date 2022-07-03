@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import heroes from "../reducers/heroes";
-import filters from "../reducers/filters";
+import heroes from "../slices/heroesSlice";
+import filters from '../slices/filtersSlice';
 
 const stringMiddleware = (store) => (next) => (action) => {
     if (typeof action === 'string') {
