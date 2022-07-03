@@ -1,24 +1,24 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { activeFilterChanged, fetchFilters, selectAll } from "../../redux/slices/filtersSlice";
+import { useGetFiltersQuery } from "../../redux/slices/apiSlice";
+import { activeFilterChanged } from "../../redux/slices/filtersSlice";
 import Spinner from '../spinner/Spinner';
 import classNames from 'classnames';
-import store from "../../redux/store";
 
 const HeroesFilters = () => {
-    const { filtersLoadingStatus, activeFilter } = useSelector(state => state.filters);
-    const filters  = selectAll(store.getState())
+    const { activeFilter } = useSelector(state => state.filters);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchFilters());
+    const {
+        data: filters = [],
+        isLoading,
+        isError
+    } = useGetFiltersQuery();
 
-        // eslint-disable-next-line
-    }, []);
-
-    if (filtersLoadingStatus === "loading") {
+    if (isLoading) {
         return <div className="d-flex justify-content-center"><Spinner /></div>
-    } else if (filtersLoadingStatus === "error") {
+    }
+
+    if (isError) {
         return <h5 className="text-center mt-5">Loading error</h5>
     }
 

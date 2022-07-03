@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { useCreateHeroMutation } from "../../redux/slices/apiSlice";
+import {useCreateHeroMutation, useGetFiltersQuery} from "../../redux/slices/apiSlice";
 import { selectAll } from "../../redux/slices/filtersSlice";
 import store from "../../redux/store";
 
@@ -12,8 +12,11 @@ const HeroesAddForm = () => {
 
     const [createHero, { isLoading }] = useCreateHeroMutation();
 
-    const { filtersLoadingStatus } = useSelector(state => state.filters);
-    const filters = selectAll(store.getState());
+    const {
+        data: filters = [],
+        isLoading: filtersIsLoading,
+        isError
+    } = useGetFiltersQuery();
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -32,12 +35,13 @@ const HeroesAddForm = () => {
         setHeroElement('');
     }
 
-    const getFilters = (filters, status) => {
-        switch (status) {
-            case 'loading':
-                return <option>Loading...</option>
-            case 'error':
-                return <option>Error loading</option>
+    const getFilters = (filters) => {
+        if (filtersIsLoading) {
+            return <option>Loading...</option>
+        }
+
+        if (isError) {
+            return <option>Error loading</option>
         }
 
         if (filters && filters.length) {
@@ -90,7 +94,7 @@ const HeroesAddForm = () => {
                     name="element"
                 >
                     <option value="">select element</option>
-                    { getFilters(filters, filtersLoadingStatus) }
+                    { getFilters(filters) }
                 </select>
             </div>
 
