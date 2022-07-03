@@ -1,8 +1,10 @@
-import {useDispatch, useSelector} from "react-redux";
-import {useHttp} from "../../hooks/http.hook";
-import {useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHttp } from "../../hooks/http.hook";
+import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { heroCreated } from "../../redux/slices/heroesSlice";
+import { selectAll } from "../../redux/slices/filtersSlice";
+import store from "../../redux/store";
 
 const HeroesAddForm = () => {
     const [heroName, setHeroName] = useState('');
@@ -10,8 +12,9 @@ const HeroesAddForm = () => {
     const [heroElement, setHeroElement] = useState('');
 
     const dispatch = useDispatch();
-    const { filters, filtersLoadingStatus } = useSelector(state => state.filters);
+    const { filtersLoadingStatus } = useSelector(state => state.filters);
     const { request } = useHttp();
+    const filters = selectAll(store.getState());
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -57,7 +60,8 @@ const HeroesAddForm = () => {
                     onChange={({ target }) => setHeroName(target.value)}
                     value={heroName}
                     required
-                    type="text" 
+                    autoComplete="off"
+                    type="text"
                     name="name" 
                     className="form-control" 
                     id="name" 
