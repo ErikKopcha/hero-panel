@@ -1,38 +1,44 @@
-import { useHttp } from '../../hooks/http.hook';
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { CSSTransition, TransitionGroup} from 'react-transition-group';
-import {heroDeleted, fetchHeroes, filteredHeroesSelector} from '../../redux/slices/heroesSlice';
+import { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useDeleteHeroMutation, useGetHeroesQuery } from "../../redux/slices/apiSlice";
+
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import './heroesList.scss';
 
 const HeroesList = () => {
-    const filteredHeroes = useSelector(filteredHeroesSelector);
-    const { heroesLoadingStatus } = useSelector(state => state.heroes);
-    const dispatch = useDispatch();
-    const { request } = useHttp();
+    const {
+        data: heroes = [],
+        isFetching,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetHeroesQuery();
 
-    useEffect(() => {
-        dispatch(fetchHeroes())
+    const [removeHero] = useDeleteHeroMutation();
 
-        // eslint-disable-next-line
-    }, []);
+    const activeFilter = useSelector(state => state.filters.activeFilter);
+
+    const filteredHeroes = useMemo(() => {
+        const fHeroes = [...heroes];
+
+        if (activeFilter === 'all') {
+            return fHeroes;
+        }
+
+        return fHeroes.filter(item => item.element === activeFilter)
+    }, [heroes, activeFilter]);
 
     const onDelete = useCallback((id) => {
-        request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-            .then(data => {
-                console.log('HERO DELETED', data);
-                dispatch(heroDeleted(id))
-            })
-            .catch(error => {
-                throw new Error(`DELETE hero error: ${error}`)
-            });
-    }, [request]);
+        removeHero(id);
+    }, []);
 
-    if (heroesLoadingStatus === "loading") {
+    if (isLoading) {
         return <Spinner/>;
-    } else if (heroesLoadingStatus === "error") {
+    } else if (isError) {
+        console.error(error);
         return <h5 className="text-center mt-5">Loading error</h5>
     }
 

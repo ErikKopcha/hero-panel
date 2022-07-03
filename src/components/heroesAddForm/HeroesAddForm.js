@@ -1,8 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useHttp } from "../../hooks/http.hook";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { heroCreated } from "../../redux/slices/heroesSlice";
+import { useCreateHeroMutation } from "../../redux/slices/apiSlice";
 import { selectAll } from "../../redux/slices/filtersSlice";
 import store from "../../redux/store";
 
@@ -11,9 +10,9 @@ const HeroesAddForm = () => {
     const [heroDesc, setHeroDesc] = useState('');
     const [heroElement, setHeroElement] = useState('');
 
-    const dispatch = useDispatch();
+    const [createHero, { isLoading }] = useCreateHeroMutation();
+
     const { filtersLoadingStatus } = useSelector(state => state.filters);
-    const { request } = useHttp();
     const filters = selectAll(store.getState());
 
     const onSubmitHandler = (e) => {
@@ -26,9 +25,7 @@ const HeroesAddForm = () => {
             element: heroElement
         }
 
-        request("http://localhost:3001/heroes", "POST", JSON.stringify(newHero))
-            .then(res => {dispatch(heroCreated(newHero))})
-            .catch(err => console.log(err));
+        createHero(newHero).unwrap();
 
         setHeroName('');
         setHeroDesc('');
@@ -97,7 +94,12 @@ const HeroesAddForm = () => {
                 </select>
             </div>
 
-            <button type="submit" className="btn btn-primary">Create</button>
+            <button
+                disabled={isLoading}
+                type="submit"
+                className="btn btn-primary">
+                Create
+            </button>
         </form>
     )
 }

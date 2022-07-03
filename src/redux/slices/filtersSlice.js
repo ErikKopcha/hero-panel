@@ -7,23 +7,12 @@ const filterStatuses = {
     error: 'error',
 }
 
-const filtersAdapter = createEntityAdapter({
-    // if need create id or cahnge field
-    // selectId: (filter) => {
-    //     return filter.id = nanoid();
-    // }
-});
+const filtersAdapter = createEntityAdapter();
 
 const initialState = filtersAdapter.getInitialState({
     filtersLoadingStatus: filterStatuses.idle,
     activeFilter: 'all',
 });
-// or
-// const initialState = {
-//     filters: [],
-//     filtersLoadingStatus: filterStatuses.idle,
-//     activeFilter: 'all',
-// }
 
 const fetchFilters = createAsyncThunk(
     'filters/fetchFilters',
@@ -48,7 +37,6 @@ const filterSlice = createSlice({
                 state.filtersLoadingStatus = filterStatuses.idle;
 
                 filtersAdapter.setAll(state, action.payload)
-                // or state.filters = action.payload;
             })
             .addCase(fetchFilters.rejected, state => { state.filtersLoadingStatus = filterStatuses.error; })
             .addDefaultCase(() => {  })
